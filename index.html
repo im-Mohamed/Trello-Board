@@ -35,49 +35,51 @@
     </div>
     <div class="container" id="container">
       <!-- Make HTML Elements -->
-      <div class="todoBlock">
+      <div class="todoBlock" id="todoBlock">
+        <button
+          id="del-all"
+          class="removeAll"
+          onclick="removeHTMLElement(this);"
+        >
+          X
+        </button>
         <!-- main title holder -->
-        <div class="titleHolder">
+        <div class="titleHolder" id="titleHolder">
           <h1>To Do List</h1>
-          <button id="del-all">X</button>
         </div>
         <!-- todo list -->
         <div class="todoList">
           <!-- list holder -->
-          <div class="listHolder">
-            <ul class="list">
-              <!-- <li> -->
-              <!-- <span class="listName"></span> -->
-              <!-- 
-              <button class="btn-icon remove"></button>
-              <button class="btn-icon down"></button>
-              <button class="btn-icon up"></button>
-              -->
-              <!-- </li>
-            <li>
-              <span class="listName"></span>
-            </li>
-            <li>
-              <span class="listName"></span>
-            </li>
-            <li>
-              <span class="listName"></span>
-            </li>
-            <li>
-              <span class="listName"></span>
-            </li> -->
-            </ul>
+          <div id="listHolder" onclick="upAndDownAndDelete(event)">
+            <ul class="list"></ul>
           </div>
           <!-- form holder -->
           <div class="formHolder">
             <div class="col big">
-              <input type="text" id="addInput" placeholder="Add Task..." />
+              <input
+                type="text"
+                id="addInput"
+                onkeyup="enterAdd('addInput','addBtn','listHolder')"
+                placeholder="Add Task..."
+              />
             </div>
             <div class="col">
-              <button type="button" id="addBtn" class="btn-primary">+</button>
+              <button
+                type="button"
+                id="addBtn"
+                onclick="addLists('addInput','addBtn','listHolder')"
+                class="btn-primary"
+              >
+                +
+              </button>
             </div>
             <div class="col">
-              <button type="button" id="toggleBtn" class="btn-primary">
+              <button
+                type="button"
+                id="toggleBtn"
+                onclick="hideAndShow()"
+                class="btn-primary"
+              >
                 Hide List
               </button>
             </div>
