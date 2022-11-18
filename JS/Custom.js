@@ -1,6 +1,7 @@
 var toggleBtn = document.querySelector("#toggleBtn");
 
 var count = 0;
+var drag = null;
 
 function addLists(elementID, btnID, listHolder) {
   var addInput = document.getElementById(elementID);
@@ -11,6 +12,7 @@ function addLists(elementID, btnID, listHolder) {
   } else {
     var ul = divList.querySelector("ul");
     var li = document.createElement("li");
+    li.setAttribute("draggable", "true");
     li.innerHTML = addInput.value;
     addInput.value = "";
     ul.appendChild(li);
@@ -90,13 +92,13 @@ const removeHTMLElement = function (e) {
 };
 
 // action to be taken when clicked on hide list button
-var divList = document.getElementById("listHolder");
-function hideAndShow(elementID, btnID, listHolder) {
-  if (divList.style.display === "none") {
-    divList.style.display = "block";
+// var divList = document.getElementById("listHolder");
+function hideAndShow() {
+  if (document.getElementById("listHolder").style.display === "none") {
+    document.getElementById("listHolder").style.display = "block";
     toggleBtn.innerHTML = "Hide List";
   } else {
-    divList.style.display = "none";
+    document.getElementById("listHolder").style.display = "none";
     toggleBtn.innerHTML = "Show List";
   }
 }
@@ -123,7 +125,7 @@ function htmlGreat() {
       <!-- todo list -->
       <div class="todoList">
         <!-- list holder -->
-        <div id="listHolder${count}" onclick="upAndDownAndDelete(event)">
+        <div id="listHolder${count}" onclick="upAndDownAndDelete(event)" class="listH">
           <ul class="list">
           </ul>
         </div>
@@ -136,7 +138,7 @@ function htmlGreat() {
             <button type="button" id="addBtn${count}" onclick="addLists('addInput${count}','addBtn${count}','listHolder${count}')" class="btn-primary">+</button>
           </div>
           <div class="col">
-            <button type="button" id="toggleBtn${count}"  class="btn-primary">Hide List</button>
+            <button type="button" id="toggleBtn${count}"  class="btn-primary" onclick="hideAndShow()">Hide List</button>
           </div>
         </div>
       </div>
@@ -145,4 +147,37 @@ function htmlGreat() {
     `;
     inpAddCard.value = "";
   }
+}
+
+// Drag And Drop
+
+function dragItem() {
+  let items = document.getElementsByTagName("li");
+  items.forEach((item) => {
+    item.addEventListener("dragstart", function () {
+      drag = item;
+      item.style.opacity = "0.3";
+      // console.log("dragstart")
+    });
+
+    item.addEventListener("dragend", function () {
+      drag = null;
+      item.style.opacity = "1";
+      // console.log("dragend");
+    });
+    let ListH = document.querySelectorAll(".list");
+    ListH.forEach((list) => {
+      list.addEventListener("dragover", function (e) {
+        e.preventDefault()
+        // console.log("drag over")
+        
+      });
+      list.addEventListener("dragleave", function () {
+        
+      })
+      list.addEventListener("drop", function () {
+        this.append(drag)
+      })
+    });
+  });
 }
