@@ -1,4 +1,4 @@
-var toggleBtn = document.querySelector("#toggleBtn");
+
 
 var count = 0;
 var drag = null;
@@ -17,6 +17,7 @@ function addLists(elementID, btnID, listHolder) {
     addInput.value = "";
     ul.appendChild(li);
     createBtn(li);
+
   }
 }
 
@@ -93,13 +94,13 @@ const removeHTMLElement = function (e) {
 
 // action to be taken when clicked on hide list button
 // var divList = document.getElementById("listHolder");
-function hideAndShow() {
-  if (document.getElementById("listHolder").style.display === "none") {
-    document.getElementById("listHolder").style.display = "block";
-    toggleBtn.innerHTML = "Hide List";
+function hideAndShow(listHolderID, togglebtnID) {
+  if (document.getElementById(listHolderID).style.display === "none") {
+    document.getElementById(listHolderID).style.display = "block";
+    document.getElementById(togglebtnID).innerHTML = "Hide List";
   } else {
-    document.getElementById("listHolder").style.display = "none";
-    toggleBtn.innerHTML = "Show List";
+    document.getElementById(listHolderID).style.display = "none";
+    document.getElementById(togglebtnID).innerHTML = "Show List";
   }
 }
 
@@ -138,7 +139,7 @@ function htmlGreat() {
             <button type="button" id="addBtn${count}" onclick="addLists('addInput${count}','addBtn${count}','listHolder${count}')" class="btn-primary">+</button>
           </div>
           <div class="col">
-            <button type="button" id="toggleBtn${count}"  class="btn-primary" onclick="hideAndShow()">Hide List</button>
+            <button type="button" id="toggleBtn${count}"  class="btn-primary" onclick="hideAndShow('listHolder${count}','toggleBtn${count}')">Hide List</button>
           </div>
         </div>
       </div>
@@ -149,35 +150,18 @@ function htmlGreat() {
   }
 }
 
-// Drag And Drop
+document.addEventListener("dragstart", function (event) {
+  drag = event.target;
+  drag.style.opacity = "0.3";
+});
 
-function dragItem() {
-  let items = document.getElementsByTagName("li");
-  items.forEach((item) => {
-    item.addEventListener("dragstart", function () {
-      drag = item;
-      item.style.opacity = "0.3";
-      // console.log("dragstart")
-    });
+document.addEventListener("dragend", function (event) {
 
-    item.addEventListener("dragend", function () {
-      drag = null;
-      item.style.opacity = "1";
-      // console.log("dragend");
-    });
-    let ListH = document.querySelectorAll(".list");
-    ListH.forEach((list) => {
-      list.addEventListener("dragover", function (e) {
-        e.preventDefault()
-        // console.log("drag over")
-        
-      });
-      list.addEventListener("dragleave", function () {
-        
-      })
-      list.addEventListener("drop", function () {
-        this.append(drag)
-      })
-    });
-  });
-}
+  drag.style.opacity = "1";
+  event.target.parentElement.append(drag)
+
+});
+
+
+
+
