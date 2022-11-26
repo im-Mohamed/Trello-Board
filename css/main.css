@@ -164,6 +164,9 @@ todo block
 list holder
 -----------
 */
+.list.dragging{
+  opacity:0.7;
+}
 
  li {
   counter-increment: step-counter;

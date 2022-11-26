@@ -1,5 +1,3 @@
-
-
 var count = 0;
 var drag = null;
 
@@ -13,11 +11,12 @@ function addLists(elementID, btnID, listHolder) {
     var ul = divList.querySelector("ul");
     var li = document.createElement("li");
     li.setAttribute("draggable", "true");
+    li.setAttribute("class", "draggable");
+    // li.setAttribute("ondragstart","drag(event)")
     li.innerHTML = addInput.value;
     addInput.value = "";
     ul.appendChild(li);
     createBtn(li);
-
   }
 }
 
@@ -126,8 +125,9 @@ function htmlGreat() {
       <!-- todo list -->
       <div class="todoList">
         <!-- list holder -->
-        <div id="listHolder${count}" onclick="upAndDownAndDelete(event)" class="listH">
-          <ul class="list">
+        <div id="listHolder${count}" onclick="upAndDownAndDelete(event)" class="listH"   >
+          <ul class="list" >
+
           </ul>
         </div>
         <!-- form holder -->
@@ -150,18 +150,66 @@ function htmlGreat() {
   }
 }
 
-document.addEventListener("dragstart", function (event) {
-  drag = event.target;
-  drag.style.opacity = "0.3";
+// ===========================================================
+// var ul = document.getElementsByTagName("ul");
+// var div = document.querySelectorAll(".listH");
+// var dragItem = null;
+// for (var i of ul) {
+//   i.addEventListener("dragstart", dragStart);
+//   i.addEventListener("dragend", dragEnd);
+// }
+// function dragStart() {
+//   dragItem = this;
+//   console.log("dragstart")
+//   // setTimeout(() => (this.style.display = "block"), 0);
+// }
+// function dragEnd() {
+//   dragItem = this;
+//   console.log("dragend")
+//   // setTimeout(() => (this.style.display = "none"), 0);
+// }
+
+// for (j of div) {
+//   j.addEventListener("dragover", dragOver);
+//   j.addEventListener("dragenter", dragEnter);
+//   j.addEventListener("dragleave", dragLeave);
+//   j.addEventListener("drop", Drop);
+// }
+// function Drop() {
+//   this.append(dragItem);
+// }
+// function dragOver(e) {
+//   e.preventDefault();
+//   // this.style.border = "1px dotted blue";
+//   console.log("dragover")
+// }
+// function dragEnter(e) {
+//   e.preventDefault();
+// }
+// function dragLeave() {
+//   this.style.border = "none";
+// }
+
+// =======================================================
+
+document.addEventListener("dragstart", (event) => {
+  dragged = event.target;
+  dragFrom = event.target.parentElement.parentElement.id;
+  console.log(dragFrom);
 });
 
-document.addEventListener("dragend", function (event) {
-
-  drag.style.opacity = "1";
-  event.target.parentElement.append(drag)
-
+document.addEventListener("dragend", (event) => {
+  console.log("end !");
 });
 
+document.addEventListener("dragover", function (event) {
+  return event.preventDefault();
+});
 
-
-
+document.addEventListener("drop", (event) => {
+  event.preventDefault();
+  dragTo = event.target.parentElement.parentElement.id;
+  divTo = document.getElementById(dragTo);
+  ul = divTo.querySelector("ul");
+  ul.appendChild(dragged);
+});
